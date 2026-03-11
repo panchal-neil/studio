@@ -1,3 +1,4 @@
+
 import type { RoadmapCategory } from '@/lib/types';
 import {
   Code2,
@@ -271,18 +272,16 @@ class Product(BaseModel):
           {
             type: 'code',
             language: 'text',
-            title: 'Visualizing Table Relations (One-to-Many)',
+            title: 'Visualizing a Table',
             code: `
-  [authors] table              [posts] table
-+----+------------+          +----+----------------+-----------+
-| id | name       |          | id | title          | author_id |  <-- Foreign Key
-+----+------------+          +----+----------------+-----------+
-| 1  | Alice      |----|     | 1  | "First Post"   | 1         |
-+----+------------+    |     +----+----------------+-----------+
-                      |----> | 2  | "Second Post"  | 1         |
-                             +----+----------------+-----------+
-                             | 3  | "Another Post" | 2         |
-                             +----+----------------+-----------+
+  [authors] table
++----+------------+
+| id | name       |  <-- Columns (Attributes)
++----+------------+
+| 1  | Alice      |  <-- Row (Record)
++----+------------+
+| 2  | Bob        |  <-- Row (Record)
++----+------------+
             `
           }
         ]
@@ -300,31 +299,31 @@ class Product(BaseModel):
           {
             type: 'concept',
             title: 'Character Types (for storing text)',
-            description: 'PostgreSQL: VARCHAR(n), TEXT. MySQL: VARCHAR(n), TEXT.',
+            description: 'PostgreSQL: VARCHAR(n), TEXT. MySQL: VARCHAR(n), TEXT. Use for names, titles, descriptions, etc.',
             icon: FileText
           },
           {
             type: 'concept',
             title: 'Numeric Types (for storing numbers)',
-            description: 'PostgreSQL: INTEGER, BIGINT, NUMERIC(p, s). MySQL: INT, BIGINT, DECIMAL(p, s).',
+            description: 'PostgreSQL: INTEGER, BIGINT, NUMERIC(p, s). MySQL: INT, BIGINT, DECIMAL(p, s). Use for counts, quantities, or financial data (NUMERIC/DECIMAL).',
             icon: FunctionSquare
           },
           {
             type: 'concept',
             title: 'Date/Time Types (for storing temporal data)',
-            description: 'PostgreSQL: TIMESTAMP, TIMESTAMPTZ, DATE. MySQL: TIMESTAMP, DATETIME, DATE.',
+            description: 'PostgreSQL: TIMESTAMP, TIMESTAMPTZ (with timezone), DATE. MySQL: TIMESTAMP, DATETIME, DATE. Use for event logging, birth dates, etc.',
             icon: Milestone
           },
           {
             type: 'concept',
             title: 'Boolean Type (for storing true/false)',
-            description: 'PostgreSQL: BOOLEAN. MySQL: BOOLEAN or TINYINT(1).',
+            description: 'PostgreSQL: BOOLEAN. MySQL: BOOLEAN or TINYINT(1). Use for flags like `is_active` or `has_paid`.',
             icon: Binary
           },
           {
             type: 'concept',
             title: 'JSON Types (for storing JSON data)',
-            description: 'PostgreSQL: JSON, JSONB (recommended). MySQL: JSON.',
+            description: 'PostgreSQL: JSON, JSONB (binary, indexed, recommended). MySQL: JSON. Use for semi-structured data or flexible attributes.',
             icon: Code2
           }
         ]
@@ -342,16 +341,67 @@ class Product(BaseModel):
             icon: GitMerge
           },
           {
+            type: 'code',
+            language: 'text',
+            title: 'Visualizing a Foreign Key',
+            code: `
+  [users] table (Parent)       [posts] table (Child)
++----+----------+             +----+----------+---------+
+| id | username |             | id | title    | user_id |  <-- Foreign Key
++----+----------+             +----+----------+---------+
+| 1  | 'alice'  |-------|     | 1  | 'Post A' | 1       |
++----+----------+       |     +----+----------+---------+
+                        |---> | 2  | 'Post B' | 1       |
+                              +----+----------+---------+
+
+The 'user_id' in 'posts' refers to the 'id' in 'users'.
+            `
+          },
+          {
             type: 'concept',
             title: 'One-to-Many',
-            description: "The most common relationship. Example: One `Author` can have many `Posts`. The `posts` table would have a `author_id` foreign key.",
+            description: "The most common relationship. Example: One `Author` can have many `Posts`. The `posts` table would have an `author_id` foreign key.",
             icon: Network
+          },
+          {
+            type: 'code',
+            language: 'text',
+            title: 'Visualizing One-to-Many',
+            code: `
+   [Author] table (One)      [Posts] table (Many)
++----+-------+             +----+--------------+-----------+
+| id | name  |             | id | title        | author_id |
++----+-------+             +----+--------------+-----------+
+| 1  | 'Jon' |----|        | 1  | 'Post One'   | 1         |
++----+-------+    |        +----+--------------+-----------+
+                   |------->| 2  | 'Post Two'   | 1         |
+                            +----+--------------+-----------+
+                            | 3  | 'Post Three' | 2         |
+                            +----+--------------+-----------+
+            `
           },
           {
             type: 'concept',
             title: 'Many-to-Many',
             description: "Example: One `Post` can have many `Tags`, and one `Tag` can be on many `Posts`. This requires a third 'junction' or 'through' table (e.g., `post_tags`) that contains `post_id` and `tag_id`.",
             icon: Network
+          },
+          {
+            type: 'code',
+            language: 'text',
+            title: 'Visualizing Many-to-Many',
+            code: `
+  [posts] table        [post_tags] (Junction)       [tags] table
++----+----------+      +---------+--------+        +----+-------+
+| id | title    |      | post_id | tag_id |        | id | name  |
++----+----------+      +---------+--------+        +----+-------+
+| 1  | 'Post A' |----->|    1    |    1   |<-------| 1  | 'SQL' |
++----+----------+      +---------+--------+        +----+-------+
+| 2  | 'Post B' |-\\    |    1    |    2   |        | 2  | 'Py'  |
++----+----------+  \\   +---------+--------+        +----+-------+
+                    \\->|    2    |    2   |------->| 3  | 'Web' |
+                       +---------+--------+        +----+-------+
+            `
           }
         ]
       },
@@ -374,22 +424,38 @@ class Product(BaseModel):
 +---+-----+     +---+-----+
 | id| val |     | id| val |
 +---+-----+     +---+-----+
-| 1 | 'X' |     | 1 | 'a' |
+| 1 | 'A' |     | 1 | 'x' |
 +---+-----+     +---+-----+
-| 2 | 'Y' |     | 3 | 'c' |
+| 2 | 'B' |     | 3 | 'z' |
 +---+-----+     +---+-----+
 
-INNER JOIN on A.id = B.id  (only matching IDs)
+INNER JOIN (Common values)
 +---+-----+-----+
-| 1 | 'X' | 'a' |
+| 1 | 'A' | 'x' |
 +---+-----+-----+
 
-LEFT JOIN on A.id = B.id  (all of A, plus matches from B)
+LEFT JOIN (All from A)
 +---+-----+------+
-| 1 | 'X' | 'a'  |
+| 1 | 'A' | 'x'  |
 +---+-----+------+
-| 2 | 'Y' | NULL |
+| 2 | 'B' | NULL |
 +---+-----+------+
+
+RIGHT JOIN (All from B)
++---+------+-----+
+| 1 | 'A'  | 'x' |
++---+------+-----+
+| 3 | NULL | 'z' |
++---+------+-----+
+
+FULL OUTER JOIN (All from both)
++---+------+------+
+| 1 | 'A'  | 'x'  |
++---+------+------+
+| 2 | 'B'  | NULL |
++---+------+------+
+| 3 | NULL | 'z'  |
++---+------+------+
 `
           },
           {
@@ -423,14 +489,42 @@ GROUP BY authors.id;
            {
             type: 'concept',
             title: 'Common Joins',
-            description: '`INNER JOIN`: Returns records that have matching values in both tables. `LEFT JOIN`: Returns all records from the left table, and the matched records from the right table. `RIGHT JOIN`: Returns all records from the right table, and the matched records from the left table.',
+            description: '`INNER JOIN`: Returns records that have matching values in both tables. `LEFT JOIN`: Returns all records from the left table, and matched records from the right table. `RIGHT JOIN`: The opposite of a LEFT JOIN. `FULL OUTER JOIN`: Returns all records when there is a match in either left or right table.',
             icon: GitMerge
           },
           {
             type: 'concept',
-            title: 'Common Aggregations',
-            description: '`COUNT()`: Counts the number of rows. `SUM()`: Calculates the sum of a set of values. `AVG()`: Calculates the average value. `MAX()`/`MIN()`: Returns the maximum/minimum value.',
+            title: 'Aggregations & Group By',
+            description: 'Aggregation functions (`COUNT`, `SUM`, `AVG`, etc.) summarize data. `GROUP BY` collapses multiple rows into a single summary row.',
             icon: FunctionSquare
+          },
+          {
+            type: 'code',
+            language: 'text',
+            title: 'Visualizing Aggregation with GROUP BY',
+            code: `
+  Original 'sales' table
++---------+--------+
+| product | amount |
++---------+--------+
+| 'Apple' |   10   |
+| 'Orange'|   15   |
+| 'Apple' |   20   |
+| 'Grape' |   5    |
+| 'Orange'|   10   |
++---------+--------+
+
+  Query: SELECT product, SUM(amount) FROM sales GROUP BY product;
+
+  Result
++---------+------------+
+| product | SUM(amount)|
++---------+------------+
+| 'Apple' |     30     |
+| 'Orange'|     25     |
+| 'Grape' |     5      |
++---------+------------+
+`
           }
         ]
       },
