@@ -49,7 +49,8 @@ export const roadmapData: RoadmapCategory[] = [
             type: 'code',
             language: 'bash',
             title: 'Install pyenv and Python 3.13',
-            code: `# Install pyenv (macOS with Homebrew)
+            code: `
+# Install pyenv (macOS with Homebrew)
 brew update
 brew install pyenv
 
@@ -57,7 +58,8 @@ brew install pyenv
 pyenv install 3.13.0
 
 # Set it as your global default
-pyenv global 3.13.0`
+pyenv global 3.13.0
+            `
           },
           { type: 'resource', url: 'https://www.python.org/downloads/', title: 'Official Python Downloads' },
           { type: 'resource', url: 'https://github.com/pyenv/pyenv', title: 'pyenv on GitHub' }
@@ -83,14 +85,16 @@ pyenv global 3.13.0`
             type: 'code',
             language: 'bash',
             title: 'Creating and Activating a venv',
-            code: `# Create a virtual environment in a folder named 'venv'
+            code: `
+# Create a virtual environment in a folder named 'venv'
 python3 -m venv venv
 
 # Activate it (macOS/Linux)
 source venv/bin/activate
 
 # On Windows, use:
-# .\\venv\\Scripts\\activate`
+# .\\venv\\Scripts\\activate
+            `
           },
           {
             type: 'text',
@@ -114,11 +118,13 @@ source venv/bin/activate
             type: 'code',
             language: 'bash',
             title: 'Installing packages',
-            code: `# Install a package (e.g., Django)
+            code: `
+# Install a package (e.g., Django)
 pip install Django
 
 # Install a specific version
-pip install Django==5.0.6`
+pip install Django==5.0.6
+            `
           },
           {
             type: 'concept',
@@ -130,11 +136,13 @@ pip install Django==5.0.6`
             type: 'code',
             language: 'bash',
             title: 'Creating and using requirements.txt',
-            code: `# Generate a requirements.txt file from your current environment
+            code: `
+# Generate a requirements.txt file from your current environment
 pip freeze > requirements.txt
 
 # Install all packages from a requirements.txt file
-pip install -r requirements.txt`
+pip install -r requirements.txt
+            `
           },
           {
             type: 'concept',
@@ -146,8 +154,10 @@ pip install -r requirements.txt`
             type: 'code',
             language: 'bash',
             title: 'Installing with uv',
-            code: `# Install all packages from a requirements.txt file using uv
-uv pip install -r requirements.txt`
+            code: `
+# Install all packages from a requirements.txt file using uv
+uv pip install -r requirements.txt
+            `
           },
           { type: 'resource', url: 'https://astral.sh/uv', title: 'Learn more about uv' }
         ]
@@ -184,7 +194,8 @@ uv pip install -r requirements.txt`
             type: 'code',
             language: 'python',
             title: 'Example of Inheritance in Django',
-            code: `from django.db import models
+            code: `
+from django.db import models
 
 # Parent class
 class BaseModel(models.Model):
@@ -201,7 +212,8 @@ class Product(BaseModel):
 
     def __str__(self):
         # Overriding the default string representation
-        return self.name`
+        return self.name
+            `
           }
         ]
       },
@@ -209,7 +221,7 @@ class Product(BaseModel):
         id: 'behavior',
         title: 'Language Behavior',
         path: 'python/behavior',
-        description: 'Understand Python\'s synchronous, interpreted nature.',
+        description: "Understand Python's synchronous, interpreted nature.",
         content: [
           {
             type: 'concept',
@@ -262,36 +274,94 @@ class Product(BaseModel):
         id: 'datatypes',
         title: 'Data Types',
         path: 'sql/datatypes',
-        description: 'Common column data types and their uses.',
+        description: 'Common column data types and their uses in PostgreSQL and MySQL.',
         content: [
+          {
+            type: 'text',
+            content: 'Choosing the correct data type is crucial for database performance, data integrity, and storage efficiency. Below are common data types for PostgreSQL and MySQL.'
+          },
+          {
+            type: 'concept',
+            title: 'Character Types',
+            description: 'For storing strings of text.',
+            icon: FileText
+          },
           {
             type: 'concept',
             title: 'VARCHAR(n)',
-            description: 'Stores variable-length strings, like usernames or titles, up to `n` characters.',
+            description: 'Stores variable-length strings with a maximum length of n. PostgreSQL: `character varying(n)` or `varchar(n)`. MySQL: `VARCHAR(n)`.',
             icon: Columns
           },
           {
             type: 'concept',
-            title: 'INT / BIGINT',
-            description: 'Stores integer numbers. Used for IDs, counts, or quantities.',
-            icon: Columns
-          },
-           {
-            type: 'concept',
             title: 'TEXT',
-            description: 'Stores long-form text, like blog post content or descriptions.',
+            description: 'Stores long-form text of variable length. PostgreSQL: `text`. MySQL: `TEXT`.',
             icon: Columns
           },
-           {
+          {
+            type: 'concept',
+            title: 'Numeric Types',
+            description: 'For storing numbers of various sizes and precisions.',
+            icon: FunctionSquare
+          },
+          {
+            type: 'concept',
+            title: 'INTEGER',
+            description: 'Stores standard whole numbers. PostgreSQL: `integer` or `int`. MySQL: `INT`.',
+            icon: Columns
+          },
+          {
+            type: 'concept',
+            title: 'BIGINT',
+            description: 'Stores very large whole numbers. PostgreSQL: `bigint`. MySQL: `BIGINT`.',
+            icon: Columns
+          },
+          {
+            type: 'concept',
+            title: 'DECIMAL / NUMERIC',
+            description: 'Stores numbers with exact precision, ideal for monetary values. You specify total digits and decimal places. PostgreSQL: `numeric(p, s)`. MySQL: `DECIMAL(p, s)`.',
+            icon: Columns
+          },
+          {
+            type: 'concept',
+            title: 'Date/Time Types',
+            description: 'For storing date and time information.',
+            icon: Milestone
+          },
+          {
+            type: 'concept',
+            title: 'TIMESTAMP',
+            description: 'Stores both date and time. PostgreSQL has `timestamp` (without time zone) and `timestamptz` (with time zone). MySQL has `TIMESTAMP` (converts to UTC for storage) and `DATETIME` (stores as-is).',
+            icon: Columns
+          },
+          {
+            type: 'concept',
+            title: 'DATE',
+            description: 'Stores only the date. PostgreSQL: `date`. MySQL: `DATE`.',
+            icon: Columns
+          },
+          {
+            type: 'concept',
+            title: 'Boolean Type',
+            description: 'For storing true or false values.',
+            icon: Binary
+          },
+          {
             type: 'concept',
             title: 'BOOLEAN',
-            description: 'Stores true/false values. Used for flags like `is_active` or `is_published`.',
+            description: 'Stores true/false values. PostgreSQL: `boolean`. MySQL: `BOOLEAN` or `TINYINT(1)`.',
             icon: Columns
           },
-           {
+          {
             type: 'concept',
-            title: 'DATETIME / TIMESTAMP',
-            description: 'Stores a date and time. Used for `created_at` or `publish_date`.',
+            title: 'JSON Types',
+            description: 'For storing JSON data.',
+            icon: Code2
+          },
+          {
+            type: 'concept',
+            title: 'JSON / JSONB',
+            description: 'For storing JSON data. PostgreSQL has `json` (stores exact text) and `jsonb` (stores in a decomposed binary format, more efficient). MySQL has `JSON`.',
             icon: Columns
           }
         ]
@@ -336,7 +406,8 @@ class Product(BaseModel):
             type: 'code',
             language: 'sql',
             title: 'Example: LEFT JOIN with Aggregation',
-            code: `-- Get all authors and the count of posts they've written
+            code: `
+-- Get all authors and the count of posts they've written
 SELECT
   authors.name,
   COUNT(posts.id) AS post_count
@@ -368,18 +439,20 @@ GROUP BY authors.id;
            {
             type: 'concept',
             title: 'Why snake_case?',
-            description: 'It\'s a widely adopted convention in the Python and PostgreSQL communities. It improves readability and avoids issues with case-sensitivity in some SQL databases.',
+            description: "It's a widely adopted convention in the Python and PostgreSQL communities. It improves readability and avoids issues with case-sensitivity in some SQL databases.",
             icon: MousePointer
           },
           {
             type: 'code',
             language: 'sql',
             title: 'snake_case example',
-            code: `CREATE TABLE product_orders (
+            code: `
+CREATE TABLE product_orders (
     order_id INT PRIMARY KEY,
     customer_name VARCHAR(100),
     order_date DATETIME
-);`
+);
+            `
           }
         ]
       }
@@ -424,7 +497,8 @@ GROUP BY authors.id;
             type: 'code',
             language: 'dockerfile',
             title: 'Example Django Dockerfile',
-            code: `FROM python:3.13-slim
+            code: `
+FROM python:3.13-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -453,7 +527,8 @@ COPY . .
 EXPOSE 8000
 
 # Run the application
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "your_project.asgi:application"]`
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "your_project.asgi:application"]
+            `
           },
            {
             type: 'concept',
@@ -483,7 +558,8 @@ CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "your_project.asgi:application"]`
             type: 'code',
             language: 'yaml',
             title: 'docker-compose.yml (Base)',
-            code: `services:
+            code: `
+services:
   web:
     build:
       context: .
@@ -495,13 +571,15 @@ CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "your_project.asgi:application"]`
       - .env
     volumes:
       - .:/app # Mount code for hot-reloading
-      - /app/__pycache__ # Anonymous volume to prevent overwriting`
+      - /app/__pycache__ # Anonymous volume to prevent overwriting
+            `
           },
           {
             type: 'code',
             language: 'yaml',
             title: 'docker-compose.dev.yml (Development Override)',
-            code: `services:
+            code: `
+services:
   db:
     image: mysql:8.0
     restart: unless-stopped
@@ -527,20 +605,23 @@ CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "your_project.asgi:application"]`
         condition: service_healthy
 
 volumes:
-  mysql_data:`
+  mysql_data:
+            `
           },
           {
             type: 'code',
             language: 'bash',
             title: 'Running Docker Compose',
-            code: `# Run services using both files
+            code: `
+# Run services using both files
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 # Build images and run
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 # Run in detached mode
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+            `
           }
         ]
       }
