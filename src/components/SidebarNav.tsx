@@ -8,11 +8,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { roadmapData } from '@/lib/roadmap-data';
-import { BrainCircuit } from 'lucide-react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 
 export function SidebarNav() {
@@ -20,22 +17,6 @@ export function SidebarNav() {
 
   return (
     <>
-      <SidebarGroup>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              isActive={pathname === '/python-path/clarifier'}
-              tooltip="AI Concept Clarifier"
-            >
-              <Link href="/python-path/clarifier">
-                <BrainCircuit />
-                <span>AI Clarifier</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarGroup>
       {roadmapData.map((category) => (
         <SidebarGroup key={category.id}>
           <SidebarGroupLabel asChild>

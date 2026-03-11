@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, BookOpen, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, BookOpen } from 'lucide-react';
 
 export default function PythonPathHomePage() {
   return (
@@ -23,14 +23,6 @@ export default function PythonPathHomePage() {
             <ArrowLeft className="h-6 w-6 animate-pulse text-primary" />
             <p className="font-semibold">
               Select a topic from the sidebar to begin your journey.
-            </p>
-          </div>
-          <div className="flex items-center justify-center gap-4 rounded-lg border p-4">
-            <BrainCircuit className="h-6 w-6 text-accent" />
-            <p className="text-sm text-muted-foreground">
-              Feeling stuck? Use the{' '}
-              <span className="font-semibold text-accent">AI Clarifier</span> to
-              get instant help with complex concepts.
             </p>
           </div>
         </CardContent>

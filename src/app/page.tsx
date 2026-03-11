@@ -7,7 +7,6 @@ import {
   Database,
   Feather,
   GitBranch,
-  BrainCircuit,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -40,12 +39,6 @@ const features = [
     icon: <Feather className="h-8 w-8 text-primary" />,
     title: 'Code Snippets',
     description: 'Ready-to-use code examples for quick learning and implementation.',
-  },
-  {
-    icon: <BrainCircuit className="h-8 w-8 text-primary" />,
-    title: 'AI Concept Clarifier',
-    description:
-      'Get instant, simplified explanations for complex topics from our AI.',
   },
 ];
 
