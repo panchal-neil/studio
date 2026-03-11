@@ -114,7 +114,7 @@ source venv/bin/activate
             type: 'code',
             language: 'bash',
             title: 'Installing packages',
-            code: '# Install a package (e.g., Django)
+            code: `# Install a package (e.g., Django)
 pip install Django
 
 # Install a specific version
