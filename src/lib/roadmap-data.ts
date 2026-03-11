@@ -267,6 +267,23 @@ class Product(BaseModel):
             title: 'Primary Key',
             description: 'A column (or set of columns) that uniquely identifies each row in a table. Usually a simple auto-incrementing integer named `id`.',
             icon: GitCommit
+          },
+          {
+            type: 'code',
+            language: 'text',
+            title: 'Visualizing Table Relations (One-to-Many)',
+            code: `
+  [authors] table              [posts] table
++----+------------+          +----+----------------+-----------+
+| id | name       |          | id | title          | author_id |  <-- Foreign Key
++----+------------+          +----+----------------+-----------+
+| 1  | Alice      |----|     | 1  | "First Post"   | 1         |
++----+------------+    |     +----+----------------+-----------+
+                      |----> | 2  | "Second Post"  | 1         |
+                             +----+----------------+-----------+
+                             | 3  | "Another Post" | 2         |
+                             +----+----------------+-----------+
+            `
           }
         ]
       },
@@ -282,87 +299,33 @@ class Product(BaseModel):
           },
           {
             type: 'concept',
-            title: 'Character Types',
-            description: 'For storing strings of text.',
+            title: 'Character Types (for storing text)',
+            description: 'PostgreSQL: VARCHAR(n), TEXT. MySQL: VARCHAR(n), TEXT.',
             icon: FileText
           },
           {
             type: 'concept',
-            title: 'VARCHAR(n)',
-            description: 'Stores variable-length strings with a maximum length of n. PostgreSQL: `character varying(n)` or `varchar(n)`. MySQL: `VARCHAR(n)`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'TEXT',
-            description: 'Stores long-form text of variable length. PostgreSQL: `text`. MySQL: `TEXT`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'Numeric Types',
-            description: 'For storing numbers of various sizes and precisions.',
+            title: 'Numeric Types (for storing numbers)',
+            description: 'PostgreSQL: INTEGER, BIGINT, NUMERIC(p, s). MySQL: INT, BIGINT, DECIMAL(p, s).',
             icon: FunctionSquare
           },
           {
             type: 'concept',
-            title: 'INTEGER',
-            description: 'Stores standard whole numbers. PostgreSQL: `integer` or `int`. MySQL: `INT`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'BIGINT',
-            description: 'Stores very large whole numbers. PostgreSQL: `bigint`. MySQL: `BIGINT`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'DECIMAL / NUMERIC',
-            description: 'Stores numbers with exact precision, ideal for monetary values. You specify total digits and decimal places. PostgreSQL: `numeric(p, s)`. MySQL: `DECIMAL(p, s)`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'Date/Time Types',
-            description: 'For storing date and time information.',
+            title: 'Date/Time Types (for storing temporal data)',
+            description: 'PostgreSQL: TIMESTAMP, TIMESTAMPTZ, DATE. MySQL: TIMESTAMP, DATETIME, DATE.',
             icon: Milestone
           },
           {
             type: 'concept',
-            title: 'TIMESTAMP',
-            description: 'Stores both date and time. PostgreSQL has `timestamp` (without time zone) and `timestamptz` (with time zone). MySQL has `TIMESTAMP` (converts to UTC for storage) and `DATETIME` (stores as-is).',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'DATE',
-            description: 'Stores only the date. PostgreSQL: `date`. MySQL: `DATE`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'Boolean Type',
-            description: 'For storing true or false values.',
+            title: 'Boolean Type (for storing true/false)',
+            description: 'PostgreSQL: BOOLEAN. MySQL: BOOLEAN or TINYINT(1).',
             icon: Binary
           },
           {
             type: 'concept',
-            title: 'BOOLEAN',
-            description: 'Stores true/false values. PostgreSQL: `boolean`. MySQL: `BOOLEAN` or `TINYINT(1)`.',
-            icon: Columns
-          },
-          {
-            type: 'concept',
-            title: 'JSON Types',
-            description: 'For storing JSON data.',
+            title: 'JSON Types (for storing JSON data)',
+            description: 'PostgreSQL: JSON, JSONB (recommended). MySQL: JSON.',
             icon: Code2
-          },
-          {
-            type: 'concept',
-            title: 'JSON / JSONB',
-            description: 'For storing JSON data. PostgreSQL has `json` (stores exact text) and `jsonb` (stores in a decomposed binary format, more efficient). MySQL has `JSON`.',
-            icon: Columns
           }
         ]
       },
@@ -404,15 +367,56 @@ class Product(BaseModel):
           },
           {
             type: 'code',
-            language: 'sql',
-            title: 'Example: LEFT JOIN with Aggregation',
+            language: 'text',
+            title: 'Visualizing Joins',
             code: `
--- Get all authors and the count of posts they've written
+  Table A         Table B
++---+-----+     +---+-----+
+| id| val |     | id| val |
++---+-----+     +---+-----+
+| 1 | 'X' |     | 1 | 'a' |
++---+-----+     +---+-----+
+| 2 | 'Y' |     | 3 | 'c' |
++---+-----+     +---+-----+
+
+INNER JOIN on A.id = B.id  (only matching IDs)
++---+-----+-----+
+| 1 | 'X' | 'a' |
++---+-----+-----+
+
+LEFT JOIN on A.id = B.id  (all of A, plus matches from B)
++---+-----+------+
+| 1 | 'X' | 'a'  |
++---+-----+------+
+| 2 | 'Y' | NULL |
++---+-----+------+
+`
+          },
+          {
+            type: 'code',
+            language: 'sql',
+            title: 'Example: LEFT JOIN with Aggregation (Explained)',
+            code: `
+-- Clause: SELECT
+-- Purpose: Specifies the columns you want in the result.
+-- Here, we get the author's name and calculate the number of posts.
 SELECT
   authors.name,
   COUNT(posts.id) AS post_count
+
+-- Clause: FROM
+-- Purpose: The starting table for the query.
 FROM authors
+
+-- Clause: LEFT JOIN
+-- Purpose: Combines rows from another table ('posts').
+-- It keeps ALL rows from the 'authors' (left) table,
+-- even if there's no match in 'posts'.
 LEFT JOIN posts ON authors.id = posts.author_id
+
+-- Clause: GROUP BY
+-- Purpose: Used with aggregate functions (like COUNT) to group rows.
+-- We group by author to count posts for each unique author.
 GROUP BY authors.id;
 `
           },

@@ -3,7 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 export interface CodeBlockContent {
   type: 'code';
   code: string;
-  language: 'bash' | 'python' | 'sql' | 'yaml' | 'dockerfile' | 'json';
+  language: 'bash' | 'python' | 'sql' | 'yaml' | 'dockerfile' | 'json' | 'text';
   title?: string;
 }
 
