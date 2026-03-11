@@ -1,0 +1,10 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Abstract network of nodes and connections representing a learning path.",
+      "imageUrl": "https://picsum.photos/seed/compass/1200/800",
+      "imageHint": "abstract network"
+    }
+  ]
+}
